@@ -1,0 +1,386 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+* {
+  box-sizing: border-box;
+
+  list-style: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+}
+.login-class {
+  background: #12c2e9; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #f64f59,
+    #c471ed,
+    #12c2e9
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  font-weight: 400;
+  font-family: sans-serif;
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+body,
+html,
+.App,
+#root,
+.outer {
+  width: 100%;
+  height: 100%;
+}
+
+.navbar-light {
+  background-color: #ffffff;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+}
+
+.outer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: left;
+}
+
+.inner {
+  width: 450px;
+  margin: auto;
+  background: #ffffff;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  padding: 40px 55px 45px 55px;
+  border-radius: 15px;
+  transition: all 0.3s;
+}
+
+.outer .form-control:focus {
+  border-color: #167bff;
+  box-shadow: none;
+}
+
+.outer h3 {
+  text-align: center;
+  margin: 0;
+  line-height: 1;
+  padding-bottom: 20px;
+}
+
+.form-label {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.forgot-password,
+.forgot-password a {
+  text-align: right;
+  font-size: 13px;
+  padding-top: 10px;
+  color: #7f7d7d;
+  margin: 0;
+}
+
+.forgot-password a {
+  color: #167bff;
+}
+
+.btn {
+  width: 100%;
+}
+.list {
+  text-align: center;
+}
+
+.buttons button {
+  font-size: 13px;
+  margin: 3px;
+  width: auto;
+}
+.paginate_button,
+.current,
+.previous,
+.next {
+  margin: 10px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* side bar css */
+.wrapper .sidebar {
+  background: rgb(5, 68, 104);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 330px;
+  height: 100%;
+  padding: 20px 0;
+  transition: all 0.5s ease;
+}
+
+.wrapper .sidebar .profile {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.wrapper .sidebar .profile img {
+  display: block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.wrapper .sidebar .profile h3 {
+  color: #ffffff;
+  margin: 10px 0 5px;
+}
+
+.wrapper .sidebar .profile p {
+  color: rgb(206, 240, 253);
+  font-size: 14px;
+}
+
+.wrapper .sidebar ul li a {
+  display: block;
+  padding: 13px 30px;
+  border-bottom: 1px solid #10558d;
+  color: rgb(241, 237, 237);
+  font-size: 16px;
+  position: relative;
+}
+
+.wrapper .sidebar ul li a .icon {
+  color: #dee4ec;
+  width: 30px;
+  display: inline-block;
+}
+
+.wrapper .sidebar ul li a:hover,
+.wrapper .sidebar ul li a.active {
+  color: #0c7db1;
+
+  background: white;
+  border-right: 2px solid rgb(5, 68, 104);
+}
+
+.wrapper .sidebar ul li a:hover .icon,
+.wrapper .sidebar ul li a.active .icon {
+  color: #0c7db1;
+}
+
+.wrapper .sidebar ul li a:hover:before,
+.wrapper .sidebar ul li a.active:before {
+  display: block;
+}
+
+.wrapper .section {
+  width: calc(100% - 225px);
+  margin-left: 225px;
+  transition: all 0.5s ease;
+}
+
+.wrapper .section .top_navbar {
+  background: rgb(7, 105, 185);
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+}
+
+.wrapper .section .top_navbar .hamburger a {
+  font-size: 28px;
+  color: #f4fbff;
+}
+
+.wrapper .section .top_navbar .hamburger a:hover {
+  color: #a2ecff;
+}
+
+.wrapper .section .container {
+  margin: 30px;
+  background: #fff;
+  padding: 50px;
+  line-height: 28px;
+}
+
+body.active .wrapper .sidebar {
+  left: -225px;
+}
+
+body.active .wrapper .section {
+  margin-left: 0;
+  width: 100%;
+}
+.add-button {
+  float: right;
+  width: 13%;
+  margin-top: 10px;
+}
+
+/* datatables  */
+#example_filter {
+  float: right;
+  margin-top: 20px;
+}
+
+#example_info {
+  float: right;
+}
+.dataTables_length {
+  display: none;
+}
+
+input[type="search"] {
+  outline-offset: 0px;
+}
+table {
+  border: 1px solid black;
+}
+
+.profile-nav img {
+  display: block;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.profile-nav {
+  margin-right: 10px;
+}
+
+/* card css */
+
+/* Float four columns side by side */
+.dashboard-card .column {
+  float: left;
+  width: 25%;
+  padding: 10px 22px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {
+  margin: 0 -5px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+.dashboard-report-block {
+  width: 100%;
+  display: inline-block;
+}
+.dashboard-report-block .dIcons {
+  float: left;
+  width: 50%;
+}
+.dashboard-report-block .card-text {
+  width: 50%;
+  float: right;
+}
+.dashboard-report-block .dIcons svg {
+  height: 4em;
+}
+/* .one {
+  background-color: rgb(199, 98, 118) !important;
+}
+.two {
+  background-color: rgb(240, 196, 196) !important;
+}
+.three {
+  background-color: rgb(216, 49, 37) !important;
+}
+.four {
+  background-color: rgb(72, 190, 171) !important;
+} */
+
+.column h3 {
+}
+@media only screen and (max-width: 767px) {
+  /* For mobile phones: */
+  .dashboard-card .column {
+    width: 100%;
+  }
+  .list {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+  /* For mobile phones: */
+  .dashboard-card .column {
+    width: 100%;
+  }
+  .list {
+    width: 100%;
+  }
+  .wrapper .sidebar {
+    width: 0%;
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* For mobile phones: */
+  .dashboard-card .column {
+    width: 100%;
+  }
+  .list {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  /* For mobile phones: */
+  .dashboard-card .column {
+    width: 50%;
+  }
+  .list {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 1025px) and (max-width: 1200px) {
+  /* For mobile phones: */
+  .dashboard-card .column {
+    width: 25%;
+  }
+  .list {
+    width: 100%;
+  }
+}
+
+.toggled {
+  padding-left: 250px;
+}
+
+.list .add-button {
+  margin: 10px;
+  float: left;
+}
+
+/* form css */
+.buttons button {
+  align-items: center;
+}
+
+.ml-auto,
+.mx-auto {
+  margin-left: auto !important;
+}
+
+.card-text .small-box-footer {
+  color: #000;
+}
