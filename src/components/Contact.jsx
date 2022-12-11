@@ -27,7 +27,7 @@ function Contact() {
       }}
       onSubmit={async (values, { resetForm }) => {
         try {
-          let response = await axios.post("/api/addUser", values);
+          let response = await axios.post("/user/addUser", values);
           if (response.status === 200) {
             navigate("/list");
             resetForm({});

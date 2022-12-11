@@ -20,7 +20,7 @@ function ForgotPasswordEmail() {
       }}
       onSubmit={async (values) => {
         try {
-          let response = await axios.post("/api/forgotPasswordEmail", values);
+          let response = await axios.post("user/forgotPasswordEmail", values);
           if (response.status === 200) {
             toast.success(response.data.message);
           }
