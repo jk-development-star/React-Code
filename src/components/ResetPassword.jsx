@@ -23,7 +23,7 @@ function ResetPassword() {
       onSubmit={async (values) => {
         try {
           let response = await axios.post(
-            "/api/reset-password/" + params.id + "/" + params.token,
+            "user/reset-password/" + params.id + "/" + params.token,
             values
           );
           if (response.status === 200) {

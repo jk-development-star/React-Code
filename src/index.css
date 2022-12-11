@@ -216,7 +216,6 @@ body.active .wrapper .section {
   width: 100%;
 }
 .add-button {
-  float: right;
   width: 13%;
   margin-top: 10px;
 }
@@ -352,10 +351,22 @@ table {
   }
 }
 
-@media only screen and (min-width: 1025px) and (max-width: 1200px) {
+@media only screen and (min-width: 1025px) and (max-width: 1366px) {
   /* For mobile phones: */
   .dashboard-card .column {
     width: 25%;
+  }
+  .list {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 1376px) and (max-width: 1605px) {
+  /* For mobile phones: */
+  .dashboard-card .column {
+    width: 25% important;
+  }
+  .wrapper .sidebar {
+    width: 279px;
   }
   .list {
     width: 100%;
@@ -383,4 +394,8 @@ table {
 
 .card-text .small-box-footer {
   color: #000;
+}
+
+.modal-body p span {
+  font-weight: 900;
 }

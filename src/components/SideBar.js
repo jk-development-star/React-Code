@@ -3,10 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function SideBar() {
-  const name = useSelector(
-    (store) => `${store.user.first_name} ${store.user.last_name}`
-  );
-  const role = useSelector((store) => `${store.user.role}`);
+  const name = useSelector((state) => state.user);
   return (
     <>
       <div className="wrapper ">
@@ -16,8 +13,8 @@ function SideBar() {
               src="https://1.bp.blogspot.com/-vhmWFWO2r8U/YLjr2A57toI/AAAAAAAACO4/0GBonlEZPmAiQW4uvkCTm5LvlJVd_-l_wCNcBGAsYHQ/s16000/team-1-2.jpg"
               alt="profile_picture"
             />
-            <h3>{name}</h3>
-            <p>{role}</p>
+            <h3>{name.first_name}</h3>
+            <p>{name.role}</p>
           </div>
           <ul>
             <li>
@@ -37,7 +34,7 @@ function SideBar() {
               </NavLink>
             </li>
             <li>
-              <NavLink activeclassname="active" to={"/lead"}>
+              <NavLink activeclassname="active" to={"/leads/list"}>
                 <span className="icon">
                   <i className="fas fa-tachometer-alt"></i>
                 </span>

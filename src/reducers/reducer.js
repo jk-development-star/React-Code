@@ -1,14 +1,19 @@
-function reducer(state, action) {
+const initialState = {
+  user: null
+}
+function reducer(state = initialState, action) {
+
   const { type, payload } = action;
 
   switch (type) {
+
     case "LOGINUSER":
       return {
         ...state,
-        user: payload,
-      };
+        user: payload
+      }
     default:
-      return state;
+      return state
   }
 }
 

@@ -97,4 +97,65 @@ const ResetPasswordValidate = (values) => {
   return errors;
 };
 
-export { validate, loginValidate, forgotValidate, ResetPasswordValidate };
+const LeadValidate = (values) => {
+  const errors = {};
+  if (!values.owner_name) {
+    errors.owner_name = "Owner Name is Required";
+  }
+  if (!values.owner_email) {
+    errors.owner_email = "Email is Required";
+  } else if (
+    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.owner_email)
+  ) {
+    errors.owner_email = "Email should be like 'abc@test.com'";
+  }
+
+  if (!values.owner_phone) {
+    errors.owner_phone = "Phone number is Required";
+  } else if (values.owner_phone.length !== 10) {
+    errors.owner_phone = "Phone number length should be 10 digits";
+  }
+  if (!values.owner_address) {
+    errors.owner_address = "Owner Address is Required";
+  }
+  if (!values.owner_city) {
+    errors.owner_city = "Owner City is Required";
+  }
+  if (!values.owner_state) {
+    errors.owner_state = "Owner State is Required";
+  }
+  if (!values.owner_country) {
+    errors.owner_country = "Owner Country is Required";
+  }
+  if (!values.owner_zipcode) {
+    errors.owner_zipcode = "Owner zipcode is Required";
+  }
+  if (!values.lead_budget) {
+    errors.lead_budget = "Lead Budget is Required";
+  }
+  if (!values.lead_status) {
+    errors.lead_status = "Lead status is Required";
+  }
+  if (!values.covered_aread) {
+    errors.covered_aread = "Covered Area is Required";
+  }
+  if (!values.assignee_id) {
+    errors.assignee_id = "Lead Assignee is Required";
+  }
+  if (!values.lead_remark_followup) {
+    errors.lead_remark_followup = "Lead Remark is Required";
+  }
+  if (!values.description) {
+    errors.description = "Lead Description is Required";
+  }
+
+  return errors;
+};
+
+export {
+  validate,
+  loginValidate,
+  forgotValidate,
+  ResetPasswordValidate,
+  LeadValidate,
+};

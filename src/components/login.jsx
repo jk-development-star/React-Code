@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 import { loginValidate } from "../Validations";
@@ -6,9 +6,10 @@ import { Formik } from "formik";
 import { ToastContainer, toast } from "react-toastify";
 import { loginUser } from "../actions/actions";
 import { useDispatch } from "react-redux";
+
 const LoginForm = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const styles = {
     color: "red",
     fontSize: "14px",

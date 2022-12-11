@@ -16,7 +16,7 @@ function ShowContact() {
     role: "",
   });
   useEffect(() => {
-    const url = "/api/" + params.id;
+    const url = "user/" + params.id;
     const fetchData = async () => {
       try {
         const response = await axios.get(url, {

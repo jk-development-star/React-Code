@@ -3,16 +3,17 @@ import SideBar from "./SideBar";
 import Navbars from "./Navbar";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faUsers, faBoxesStacked } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 function Dashboard() {
   const [userCount, setUserCount] = useState(0);
+  const [leadCount, setLeadCount] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api", {
+        const response = await axios.get("user/", {
           headers: {
             Authorization: localStorage.getItem("token"),
           },
@@ -25,7 +26,23 @@ function Dashboard() {
         console.log(error);
       }
     };
+    const fetchLeadData = async () => {
+      try {
+        const response = await axios.get("lead/", {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        });
+        if (response.status === 200) {
+          const leadCount = response.data.result.length;
+          setLeadCount(leadCount);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchData();
+    fetchLeadData();
   }, []);
 
   return (
@@ -60,14 +77,15 @@ function Dashboard() {
                 <div className="card text-white bg-success">
                   <div className="dashboard-report-block">
                     <div className="dIcons">
-                      <FontAwesomeIcon icon={faUsers} />
+                      <FontAwesomeIcon icon={faBoxesStacked} />
                     </div>
                     <div className="card-text">
-                      <h3>Users</h3>
-                      <p>Some text</p>
-                      <a href="#" className="small-box-footer">
+                      <h3>{leadCount}</h3>
+                      <h3>Leads</h3>
+
+                      <Link to={"/leads/list"} className="small-box-footer">
                         More info <i className="fas fa-arrow-circle-right"></i>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
