@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
 import Navbars from "./Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,39 +10,20 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
 import SideBar from "./SideBar";
-import { ToastContainer, toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteUser } from "../actions/actions";
+import { ToastContainer } from "react-toastify";
+
 function List() {
+  const dispatch = useDispatch();
   let i = 1;
-  const [users, setUsers] = useState([]);
+  const users = useSelector((state) => state.user.totalUser);
   const mystyle = {
     width: "20%",
   };
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("user/", {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
-      if (response.status === 200) {
-        setUsers(response.data.result);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-          footer: '<a href="">Why do I have this issue?</a>',
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const deleteUser = async (e, id) => {
+  const deleteUsers = async (e, id) => {
     e.preventDefault();
     Swal.fire({
       title: "Are you sure?",
@@ -51,28 +32,24 @@ function List() {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        axios
-          .delete(`/api/delete/${id}`, {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          })
-          .then((res) => {
-            toast.success("User deleted successfully.");
-            fetchData();
-          });
+        dispatch(deleteUser(id));
+        // axios
+        //   .delete(`http://localhost:8080/api/v1/user/delete/${id}`, {
+        //     headers: {
+        //       Authorization: localStorage.getItem("token"),
+        //     },
+        //   })
+        //   .then((res) => {
+        //     toast.success("User deleted successfully.");
+        //   });
       }
     });
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   return (
     <>
+      <ToastContainer />
       <div className="container-fluid">
-        <ToastContainer />
         <div className="row">
           <div className="col-lg-2 col-md-2">
             <SideBar />
@@ -133,7 +110,7 @@ function List() {
                             </button>
                           </Link>
                           <button
-                            onClick={(e) => deleteUser(e, user.id)}
+                            onClick={(e) => deleteUsers(e, user.id)}
                             className="btn btn-danger"
                             active="true"
                             title="Delete"

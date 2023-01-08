@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import Navbars from "../Navbar";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import Swal from "sweetalert2";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+
+import { useSelector, useDispatch } from "react-redux";
 import SideBar from "../SideBar";
 import * as Yup from "yup";
+import { updateLead } from "../../actions/LeadActions";
 
 const EditLead = () => {
-  const params = useParams();
-  const name = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const name = useSelector((state) => state.user.totalUser);
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
-  const [messages, setMessages] = useState([]);
   const styles = {
     color: "red",
   };
@@ -24,9 +22,9 @@ const EditLead = () => {
       .email("Invalid email address format")
       .required("Email is required"),
     owner_name: Yup.string().required("Owner Name is required"),
-    owner_phone: Yup.string()
+    owner_phone: Yup.number()
       .min(3, "Phone Number must have 10 digits")
-      .required("Owner Name is required"),
+      .required("Phone Number is required"),
     owner_address: Yup.string().required("Owner Address is required"),
     owner_city: Yup.string().required("Owner City is required"),
     owner_state: Yup.string().required("Owner State is required"),
@@ -60,62 +58,15 @@ const EditLead = () => {
     },
     validationSchema: LeadSchema,
     onSubmit: async (values) => {
-      try {
-        let response = await axios.post(
-          "http://localhost:8080/api/v1/lead/updateLead/" + params.id,
-          values,
-          {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          }
-        );
-        if (response.status === 200) {
-          navigate("/leads/list");
-        }
-      } catch (err) {
-        const validation = err.response.data.errors;
-        setMessages(Object.values(validation));
-      }
+      dispatch(updateLead(values));
+      navigate("/leads/list");
     },
   });
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("http://localhost:8080/api/v1/user/", {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
-      if (response.status === 200) {
-        setUsers(response.data.result);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchLeadData = async () => {
-    try {
-      const url = "http://localhost:8080/api/v1/lead/" + params.id;
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
-      if (response.status === 200) {
-        let data = response.data.result;
-        formik.setValues(data);
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
+  const findLead = useSelector((state) => state.lead.findLead);
   useEffect(() => {
-    fetchData();
-    fetchLeadData();
+    formik.setValues(findLead);
   }, []);
-
   return (
     <div className="container-fluid">
       <div className="row">
@@ -126,9 +77,9 @@ const EditLead = () => {
           <Navbars />
           <Container className="mt-4">
             <div className="message" style={styles}>
-              {messages.map((v, index) =>
+              {/* {messages.map((v, index) =>
                 v ? <p key={index}>{v.message}</p> : null
-              )}
+              )} */}
             </div>
             <div>
               <h2>Edit Lead</h2>
@@ -302,8 +253,8 @@ const EditLead = () => {
                     value={formik.values.assignee_id}
                   >
                     <option>Select User</option>
-                    {users.length !== 0 &&
-                      users.map((user, index) => (
+                    {name.length !== 0 &&
+                      name.map((user, index) => (
                         <option key={index} value={user.id}>
                           {user.first_name} {user.last_name}
                         </option>

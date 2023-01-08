@@ -1,57 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import Navbars from "../Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEye,
-  faTrash,
-  faEdit,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faEdit, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
-import axios from "axios";
 import SideBar from "../SideBar";
 import OwnerDetailModal from "../modals/OwnerDetailsModal";
+import { useSelector, useDispatch } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import { findLead, totalLead } from "../../actions/LeadActions";
 
 function LeadList() {
-  const [leads, setLeads] = useState([]);
-
-  const fetchData = async () => {
-    try {
-      const url = "http://localhost:8080/api/v1/lead/";
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
-      if (response.status === 200) {
-        setLeads(response.data.result);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-          footer: '<a href="">Why do I have this issue?</a>',
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    fetchData();
+    dispatch(totalLead);
   }, []);
-  let style = {
-    fontWeight: "bold",
-    fontSize: "14px",
-  };
+  const leads = useSelector((state) => state.lead);
 
+  // const user = useSelector((state) => state.user.totalUser);
   const ref = useRef(null);
 
   return (
     <>
+      <ToastContainer />
       <div className="container-fluid">
         <div className="row">
           <div className="col-lg-2 col-md-2">
@@ -74,11 +45,11 @@ function LeadList() {
                   </Button>
                 </Link>
               </div>
-              <table id="example" className="table table-striped responsive">
+              <table id="example" className="table table-striped">
                 <thead>
                   <tr>
                     <th>Lead Number</th>
-                    <th>Owner Detail</th>
+                    <th>Details Of Lead</th>
                     <th>Budget</th>
                     <th>Status</th>
                     <th>Covered Area</th>
@@ -88,57 +59,60 @@ function LeadList() {
                   </tr>
                 </thead>
                 <tbody>
-                  {leads.length !== 0 ? (
-                    leads.map((lead, index) => (
+                  {leads.lead != null && leads.lead !== 0 ? (
+                    leads.lead.map((value, index) => (
                       <tr key={index}>
-                        <td>{lead.lead_id}</td>
+                        <td>{value.lead_id}</td>
                         <td>
                           <button
                             ref={ref}
                             className="btn btn-light"
                             data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
+                            data-bs-target={`#exampleModal${value.id}`}
                           >
                             View Detail
                           </button>
-                          <OwnerDetailModal lead={lead} title="Owner Details" />
+                          <OwnerDetailModal
+                            lead={value}
+                            title="Lead"
+                            id={value.id}
+                          />
                         </td>
-                        <td>{lead.lead_budget}</td>
+                        <td>{value.lead_budget}</td>
                         <td>
-                          {lead.lead_status === 1 ? (
+                          {value.lead_status === 1 ? (
                             <p className="btn-success">Active</p>
                           ) : (
                             ""
                           )}
-                          {lead.lead_status === 2 ? (
+                          {value.lead_status === 2 ? (
                             <p className="btn-info">Follow Up</p>
                           ) : (
                             ""
                           )}
-                          {lead.lead_status === 0 ? (
+                          {value.lead_status === 0 ? (
                             <p className="btn-danger">In-Active</p>
                           ) : (
                             ""
                           )}
                         </td>
-                        <td>{lead.covered_aread}SqFt</td>
-                        <td>{lead.assignee_id}</td>
-                        <td>{lead.generated_by}</td>
+                        <td>{value.covered_aread} SqFt</td>
+
+                        <td>
+                          {value.AssignedTo.first_name}{" "}
+                          {value.AssignedTo.last_name}
+                        </td>
+                        <td>
+                          {value.GeneratedBy.first_name}{" "}
+                          {value.GeneratedBy.last_name}
+                        </td>
                         <td className="buttons d-flex justify-content-center">
-                          <Link to={`/show/lead/${lead.id}`}>
-                            <button
-                              className="btn btn-primary col-3"
-                              title="View"
-                              active="true"
-                            >
-                              <FontAwesomeIcon icon={faEye} />
-                            </button>
-                          </Link>
-                          <Link to={`/edit/lead/${lead.id}`}>
+                          <Link to={`/edit/lead/${value.id}`}>
                             <button
                               className="btn btn-success col-3"
                               title="Edit"
                               active="true"
+                              onClick={() => dispatch(findLead(value.id))}
                             >
                               <FontAwesomeIcon icon={faEdit} />
                             </button>

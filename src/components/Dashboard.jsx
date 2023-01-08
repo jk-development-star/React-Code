@@ -1,52 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import SideBar from "./SideBar";
 import Navbars from "./Navbar";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers, faBoxesStacked } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
-
+import { useDispatch, useSelector } from "react-redux";
+import { totalLead } from "../actions/LeadActions";
+import { totalUser } from "../actions/actions";
+import { ToastContainer } from "react-toastify";
 function Dashboard() {
-  const [userCount, setUserCount] = useState(0);
-  const [leadCount, setLeadCount] = useState(0);
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("user/", {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        });
-        if (response.status === 200) {
-          const usersCount = response.data.result.length;
-          setUserCount(usersCount);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    const fetchLeadData = async () => {
-      try {
-        const response = await axios.get("lead/", {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        });
-        if (response.status === 200) {
-          const leadCount = response.data.result.length;
-          setLeadCount(leadCount);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-    fetchLeadData();
+    dispatch(totalLead);
+    dispatch(totalUser);
   }, []);
+  const leads = useSelector((state) => state.lead);
+  const users = useSelector((state) => state.user.totalUser);
+  const user = users ? users.length : 0;
+  const lead = leads.lead ? leads.lead.length : 0;
 
   return (
     <>
+      <ToastContainer />
       <div className="container-fluid">
         <div className="row">
           <div className="col-lg-2 col-md-2">
@@ -63,7 +38,7 @@ function Dashboard() {
                       <FontAwesomeIcon icon={faUsers} />
                     </div>
                     <div className="card-text">
-                      <h3>{userCount}</h3>
+                      <h3>{user}</h3>
                       <h3>Users</h3>
                       <Link to={"/list"} className="small-box-footer">
                         More info <i className="fas fa-arrow-circle-right"></i>
@@ -80,7 +55,7 @@ function Dashboard() {
                       <FontAwesomeIcon icon={faBoxesStacked} />
                     </div>
                     <div className="card-text">
-                      <h3>{leadCount}</h3>
+                      <h3>{lead}</h3>
                       <h3>Leads</h3>
 
                       <Link to={"/leads/list"} className="small-box-footer">
@@ -100,9 +75,9 @@ function Dashboard() {
                     <div className="card-text">
                       <h3>Users</h3>
                       <p>Some text</p>
-                      <a href="#" className="small-box-footer">
+                      <Link to={"/list"} className="small-box-footer">
                         More info <i className="fas fa-arrow-circle-right"></i>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -117,9 +92,9 @@ function Dashboard() {
                     <div className="card-text">
                       <h3>Users</h3>
                       <p>Some text</p>
-                      <a href="#" className="small-box-footer">
+                      <Link to={"/list"} className="small-box-footer">
                         More info <i className="fas fa-arrow-circle-right"></i>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

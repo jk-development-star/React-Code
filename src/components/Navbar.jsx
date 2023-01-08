@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket, faBars } from "@fortawesome/free-solid-svg-icons";
+import storage from "redux-persist/lib/storage";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -10,6 +11,7 @@ function Navbars() {
   const navigate = useNavigate();
   const logout = <FontAwesomeIcon icon={faRightFromBracket} />;
   let logoutUSer = () => {
+    storage.removeItem("persist:rootData");
     localStorage.clear();
     navigate("/");
   };

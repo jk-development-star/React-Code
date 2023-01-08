@@ -1,9 +1,9 @@
-import React, { useReducer } from "react";
+import React from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 import { loginValidate } from "../Validations";
 import { Formik } from "formik";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { loginUser } from "../actions/actions";
 import { useDispatch } from "react-redux";
 
@@ -28,6 +28,7 @@ const LoginForm = () => {
     >
       {({ values, handleChange, handleSubmit, errors }) => (
         <>
+          <ToastContainer />
           <div className="outer login-class">
             <div className="inner">
               <h3>Log in</h3>
@@ -67,7 +68,7 @@ const LoginForm = () => {
                 >
                   Submit
                 </Button>
-                <ToastContainer />
+
                 <p className="forgot-password text-right">
                   <Link to={"/forgot/password"}>Forgot password?</Link>
                 </p>
