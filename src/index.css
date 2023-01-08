@@ -399,3 +399,14 @@ table {
 .modal-body p span {
   font-weight: 900;
 }
+
+.table-style tr td {
+  text-align: left;
+}
+.table-style tr td:first-child {
+  font-weight: bold;
+}
+
+.modal-title {
+  font-weight: bolder;
+}

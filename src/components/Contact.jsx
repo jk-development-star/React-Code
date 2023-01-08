@@ -4,9 +4,11 @@ import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import Navbars from "./Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { validate } from "../Validations";
-import axios from "axios";
+import { useDispatch } from "react-redux";
 import SideBar from "./SideBar";
+import { addNewUser } from "../actions/actions";
 function Contact() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const styles = {
@@ -26,16 +28,9 @@ function Contact() {
         password_confirmation: "",
       }}
       onSubmit={async (values, { resetForm }) => {
-        try {
-          let response = await axios.post("/user/addUser", values);
-          if (response.status === 200) {
-            navigate("/list");
-            resetForm({});
-          }
-        } catch (err) {
-          const validation = err.response.data.errors;
-          setMessages(Object.values(validation));
-        }
+        dispatch(addNewUser(values));
+        resetForm();
+        navigate("/list");
       }}
     >
       {({ errors, handleSubmit, handleChange, values }) => (
